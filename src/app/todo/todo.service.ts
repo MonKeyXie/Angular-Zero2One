@@ -9,9 +9,10 @@ import { Todo } from './todo.model';
 @Injectable()
 export class TodoService {
 
-    //定义假WebAPI地址前半部分无所谓，后半部分和data.ts返回值相关
+    //定义假WebAPI地址前半部'api'分无所谓，后半部分'todos'和data.ts返回值相关
     //确保是无法访问的地址就好
-    private api_url = 'api/todos';
+    //private api_url = 'api/todos';
+    private api_url = 'http://localhost:3000/todos';
     private headers = new Headers({ 'Content-Type':'application/json' });
 
     constructor(private http : Http){ }
@@ -24,19 +25,19 @@ addTodo(desc:string): Promise<Todo> { //返回值是一个Promise<todo>类型
       completed: false
     };
     return this.http
-            .post(this.api_url, JSON.stringify(todo), {headers: this.headers})
-            .toPromise()                       //把observable转成promise
+            .post(this.api_url, JSON.stringify(todo), {headers: this.headers}) //构造POST类型的HTTP请求，参数为（访问的url,返回request的body并把对象转换成Json，请求头）
+            .toPromise()                       //把post返回的observable对象转成promise
             .then(res => res.json() as Todo)   // as Todo相当于返回的数据赋值给Todo[],再当参数传递给组件
             .catch(this.handleError);
   }
-  // PUT /todos/:id
+  // 把PUT改为PATCH方法，只上传变化的数据 /todos/:id 更新todoitem的完成状态
   toggleTodo(todo: Todo): Promise<Todo> {
     const url = `${this.api_url}/${todo.id}`;
     console.log(url);
     let updatedTodo = Object.assign({}, todo, {completed: !todo.completed});
     console.log("updatedTodo: "+updatedTodo);
     return this.http
-            .put(url, JSON.stringify(updatedTodo), {headers: this.headers})
+            .patch(url, JSON.stringify({completed:!todo.completed}), {headers: this.headers})
             .toPromise()
             .then(() => updatedTodo)
             .catch(this.handleError);
@@ -50,12 +51,31 @@ addTodo(desc:string): Promise<Todo> { //返回值是一个Promise<todo>类型
             .then(() => null)
             .catch(this.handleError);
   }
+
+  //Get /todos?completed=true/false
+  filterTodos(filter: string): Promise<Todo[]> {
+    switch(filter){
+      case 'ACTIVE': return this.http
+                        .get(`${this.api_url}?completed=false`)
+                        .toPromise()
+                        .then(res => res.json() as Todo[])
+                        .catch(this.handleError);
+      case 'COMPLETED': return this.http
+                        .get(`${this.api_url}?completed=true`)
+                        .toPromise()
+                        .then(res => res.json() as Todo[])
+                        .catch(this.handleError);
+      default:
+        return this.getTodos();
+    }
+  }
+
   // GET /todos
-  getTodos(): Promise<Todo[]>{
+  getTodos(): Promise<Todo[]> {
     return this.http.get(this.api_url)
-              .toPromise()
-              .then(res => res.json() as Todo[])
-              .catch(this.handleError);
+      .toPromise()
+      .then(res => res.json() as Todo[])
+      .catch(this.handleError);
   }
 
     private handleError(errors: any): Promise<any> {

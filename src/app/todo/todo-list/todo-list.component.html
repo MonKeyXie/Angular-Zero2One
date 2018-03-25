@@ -1,0 +1,18 @@
+<section class="main" *ngIf="todos?.length > 0"> <!--'?'表示若todos为null则不继续判断-->
+  <input class="toggle-all" type="checkbox" (click)="onToggleAllTriggered()">
+  <ul class="todo-list">
+    <li *ngFor="let todo of todos" [class.completed]="todo.completed">
+      <app-todo-item
+        [isChecked]="todo.completed"
+        (onToggleTriggered)="onToggleTriggered(todo)"
+        (onRemoveTriggered)="onRemoveTriggered(todo)"
+        [todoDesc]="todo.desc">
+      </app-todo-item>
+      <!--div class="view">
+        <input class="toggle" type="checkbox" (click)="toggleTodo(todo)" [checked]="todo.completed">
+        <label (click)="toggleTodo(todo)">{{todo.desc}}</label>
+        <button class="destroy" (click)="removeTodo(todo); $event.stopPropagation()"></button>
+      </div-->
+    </li>
+  </ul>
+</section>

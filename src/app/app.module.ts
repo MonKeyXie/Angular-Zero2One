@@ -1,28 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { routing } from './app.routes'
+import { HttpModule } from '@angular/http'
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './core/auth.service';
-import { TodoComponent } from './todo/todo.component'
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryTodoDbService } from './todo/todo-data';
+import { routing } from './app.routes'
+
+import { TodoModule } from './todo/todo.module';  //引入子模块
 
 @NgModule({
+  //顶层组件，在整个module中的Component的模板文件中都能直接使用
   declarations: [
     AppComponent,
     LoginComponent,
-    TodoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryTodoDbService),
-    routing
+    routing,
+    TodoModule
   ],
   providers: [
     //每个service以一个object的形式在providers中配置
