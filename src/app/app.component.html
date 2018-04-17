@@ -1,6 +1,30 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div>
-  <router-outlet></router-outlet>
-  <!-- <app-login></app-login> -->
-</div>
-
+<mdl-layout mdl-layout-fixed-header mdl-layout-header-seamed>
+  <mdl-layout-header>
+    <mdl-layout-header-row>
+      <mdl-layout-title>{{title}}</mdl-layout-title>
+      <mdl-layout-spacer></mdl-layout-spacer>
+      <!-- 导航栏，当设备小时隐藏. -->
+      <nav class="mdl-navigation" *ngIf="auth?.user?.username !== null">
+        <a class="mdl-navigation__link" routerLink="todo">Todos</a>
+      </nav>
+      <nav class="mdl-navigation" *ngIf="auth?.user?.username !== null">
+        <a class="mdl-navigation__link" routerLink="profile">{{auth.user.username}}</a>
+      </nav>
+      <nav class="mdl-navigation" >
+        <a class="mdl-navigation__link" *ngIf="auth?.user?.username === null" (click)='login()'>Login</a>
+        <a class="mdl-navigation__link" *ngIf="auth?.user?.username !== null" (click)="logout()">logout</a>
+      </nav>
+    </mdl-layout-header-row>
+  </mdl-layout-header>
+  <mdl-layout-drawer>
+    <mdl-layout-title>{{title}}</mdl-layout-title>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link">Link</a>
+    </nav>
+  </mdl-layout-drawer>
+  <mdl-layout-content class="content">
+    <!--用路由插座而不是selector形式显示，无法让子控件传递信息，用Rx-->
+    <router-outlet></router-outlet>
+  </mdl-layout-content>
+</mdl-layout>

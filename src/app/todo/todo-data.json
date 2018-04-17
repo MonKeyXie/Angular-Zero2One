@@ -1,34 +1,19 @@
 {
-  "todos": [
+  "posts": [
     {
-      "id": "f823b191-7799-438d-8d78-fcb1e468fc78",
-      "desc": "blablabla",
-      "completed": false
-    },
-    {
-      "id": "dd65a7c0-e24f-6c66-862e-0999ea504ca0",
-      "desc": "getting up",
-      "completed": false
-    },
-    {
-      "id": "c1092224-4064-b921-77a9-3fc091fbbd87",
-      "desc": "you wanna try",
-      "completed": false
-    },
-    {
-      "id": "830b2f0a-b831-8302-b0ae-6ed9829d686d",
-      "desc": "今天",
-      "completed": true
-    },
-    {
-      "id": "e9cf862f-a280-0ca9-474e-9bbedb16a316",
-      "desc": "天气",
-      "completed": true
-    },
-    {
-      "id": "08eb1516-05ad-1ec7-b812-cc53d3f344a9",
-      "desc": "AFDFSFF",
-      "completed": false
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
     }
-  ]
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Todo } from './todo.model';
-import { Router, ActivatedRoute, Params } from '@angular/router'; //接收路由参数
+import { Todo } from '../domain/entities';
+import { Router, ActivatedRoute, Params } from '@angular/router'; //接收路由穿过来的参数
 //import { TodoService } from './todo.service'
 
 @Component({

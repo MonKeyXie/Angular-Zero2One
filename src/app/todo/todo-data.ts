@@ -1,6 +1,6 @@
 //模拟数据
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Todo } from './todo.model';
+import { Todo } from '../domain/entities';
 
 export class InMemoryTodoDbService implements InMemoryDbService {
     createDb() {

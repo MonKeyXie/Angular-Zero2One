@@ -4,7 +4,7 @@ import { UUID } from 'angular2-uuid';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Todo } from './todo.model';
+import { Todo } from '../domain/entities';
 
 @Injectable()
 export class TodoService {
@@ -19,22 +19,25 @@ export class TodoService {
 
 // POST /todos
 addTodo(desc:string): Promise<Todo> { //返回值是一个Promise<todo>类型
+  //'+'一个把string转成number的简易方法
+  const userId:number = +localStorage.getItem('userId');
     let todo = {
       id: UUID.UUID(),
       desc: desc,
-      completed: false
+      completed: false,
+      userId
     };
     return this.http
             .post(this.api_url, JSON.stringify(todo), {headers: this.headers}) //构造POST类型的HTTP请求，参数为（访问的url,返回request的body并把对象转换成Json，请求头）
             .toPromise()                       //把post返回的observable对象转成promise
-            .then(res => res.json() as Todo)   // as Todo相当于返回的数据赋值给Todo[],再当参数传递给组件
+            .then(res => res.json() as Todo)   // as Todo->将Json数组/对象通过'属性对应'转换为Todo类型
             .catch(this.handleError);
   }
   // 把PUT改为PATCH方法，只上传变化的数据 /todos/:id 更新todoitem的完成状态
   toggleTodo(todo: Todo): Promise<Todo> {
     const url = `${this.api_url}/${todo.id}`;
     console.log(url);
-    let updatedTodo = Object.assign({}, todo, {completed: !todo.completed});
+    let updatedTodo = Object.assign({}, todo, {completed: !todo.completed});  //对象todo,并更新completed
     console.log("updatedTodo: "+updatedTodo);
     return this.http
             .patch(url, JSON.stringify({completed:!todo.completed}), {headers: this.headers})
@@ -54,14 +57,16 @@ addTodo(desc:string): Promise<Todo> { //返回值是一个Promise<todo>类型
 
   //Get /todos?completed=true/false
   filterTodos(filter: string): Promise<Todo[]> {
+    const userId:number = +localStorage.getItem('userId');
+    const url = `${this.api_url}/?userId=${userId}`;
     switch(filter){
       case 'ACTIVE': return this.http
-                        .get(`${this.api_url}?completed=false`)
+                        .get(`${url}&completed=false`)
                         .toPromise()
                         .then(res => res.json() as Todo[])
                         .catch(this.handleError);
       case 'COMPLETED': return this.http
-                        .get(`${this.api_url}?completed=true`)
+                        .get(`${url}&completed=true`)
                         .toPromise()
                         .then(res => res.json() as Todo[])
                         .catch(this.handleError);
@@ -72,7 +77,9 @@ addTodo(desc:string): Promise<Todo> { //返回值是一个Promise<todo>类型
 
   // GET /todos
   getTodos(): Promise<Todo[]> {
-    return this.http.get(this.api_url)
+    const userId = +localStorage.getItem('userId');
+    const url = `${this.api_url}/?userId=${userId}`;
+    return this.http.get(url)
       .toPromise()
       .then(res => res.json() as Todo[])
       .catch(this.handleError);

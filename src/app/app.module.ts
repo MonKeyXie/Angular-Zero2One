@@ -1,26 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from "./shared/shared.module";
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './core/auth.service';
-import { routing } from './app.routes'
+import { AppRoutingModule } from './app-routing.module';
 
 import { TodoModule } from './todo/todo.module';  //引入子模块
+import { CoreModule } from './core/co;
+import { RegisterDialogComponent } from './login/register-dialog/register-dialog.component're.module';
 
 @NgModule({
   //顶层组件，在整个module中的Component的模板文件中都能直接使用
-  declarations: [
+,
+    RegisterDialogComponent  declarations: [
     AppComponent,
     LoginComponent,
   ],
+  //导入所需要的模块
   imports: [
     BrowserModule,
-    FormsModule,
+    SharedModule,
     HttpModule,
-    routing,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    CoreModule,
     TodoModule
   ],
   providers: [
