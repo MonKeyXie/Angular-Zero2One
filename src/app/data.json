@@ -25,14 +25,14 @@
       "userId": 1
     },
     {
-      "id": "08eb1516-05ad-1ec7-b812-cc53d3f344a9",
-      "desc": "AFDFSFF",
+      "id": "6b9f96a9-3c97-7551-8112-5263687677e5",
+      "desc": "gdfgdgfdsgfdsg",
       "completed": false,
       "userId": 2
     },
     {
-      "id": "6b9f96a9-3c97-7551-8112-5263687677e5",
-      "desc": "gdfgdgfdsgfdsg",
+      "id": "4ff3d2e2-b659-9867-0bf1-cb1532dbaf6a",
+      "desc": true,
       "completed": false,
       "userId": 2
     }
@@ -47,6 +47,11 @@
       "id": 2,
       "username": "monkey",
       "password": "12345"
+    },
+    {
+      "username": "testUser",
+      "password": "testpassword",
+      "id": 3
     }
   ]
 }

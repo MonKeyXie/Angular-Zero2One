@@ -2,17 +2,17 @@
   <app-todo-header
     placeholder="What do you want"
     (textChanges)="onTextChanges($event)"
-    (onEnterUp)="addTodo()">
+    (onEnterUp)="addTodo($event)">
   </app-todo-header>
   <!--$event是事件反射器携带的参数-->
   <app-todo-list
-    [todos]="todos"
+    [todos]="todos | async"
     (onRemoveTodo)="removeTodo($event)"
     (onToggleTodo)="toggleTodo($event)"
     (onToggleAll)="toggleAll()">
   </app-todo-list>
   <app-todo-footer 
-    [itemCount]="todos?.length"
+    [itemCount]="(todos | async).length"
     (onClear)="clearCompleted()">
   </app-todo-footer>
 </section>
